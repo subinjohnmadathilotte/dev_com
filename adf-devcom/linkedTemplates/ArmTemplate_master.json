@@ -1,0 +1,78 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adf-devcom"
+		},
+		"LS_SQl_PAR_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_SQl_PAR'"
+		},
+		"LS_SqlServer_Table_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_SqlServer_Table'",
+			"defaultValue": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=DE_Training"
+		},
+		"LS_SqlServer_Table_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SqlServer_Table'"
+		},
+		"LS_SQl_PAR_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
+		},
+		"LS_SqlServer_Table_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "MEA\\Subin.John"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adf-devcom_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_SQl_PAR_accountKey": {
+						"value": "[parameters('LS_SQl_PAR_accountKey')]"
+					},
+					"LS_SqlServer_Table_connectionString": {
+						"value": "[parameters('LS_SqlServer_Table_connectionString')]"
+					},
+					"LS_SqlServer_Table_password": {
+						"value": "[parameters('LS_SqlServer_Table_password')]"
+					},
+					"LS_SQl_PAR_properties_typeProperties_url": {
+						"value": "[parameters('LS_SQl_PAR_properties_typeProperties_url')]"
+					},
+					"LS_SqlServer_Table_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SqlServer_Table_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

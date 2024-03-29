@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-devcom"
+		},
+		"LS_SQl_PAR_accountKey": {
+			"value": ""
+		},
+		"LS_SqlServer_Table_connectionString": {
+			"value": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=DE_Training"
+		},
+		"LS_SqlServer_Table_password": {
+			"value": ""
+		},
+		"LS_SQl_PAR_properties_typeProperties_url": {
+			"value": "https://adlseldevcom.dfs.core.windows.net/"
+		},
+		"LS_SqlServer_Table_properties_typeProperties_userName": {
+			"value": "MEA\\Subin.John"
+		}
+	}
+}
