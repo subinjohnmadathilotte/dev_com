@@ -1,0 +1,19 @@
+{
+	"name": "DS_ADLS_REST_PAR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_REST_PAR",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "customer"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

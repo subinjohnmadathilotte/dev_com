@@ -1,0 +1,24 @@
+{
+	"name": "SCH_REST_PAR_DATA",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_REST_TO_",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2024-03-30T05:57:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
