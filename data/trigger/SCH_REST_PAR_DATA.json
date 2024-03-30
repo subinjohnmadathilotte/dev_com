@@ -6,7 +6,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "PL_REST_TO_",
+					"referenceName": "PL_REST_API",
 					"type": "PipelineReference"
 				}
 			}
