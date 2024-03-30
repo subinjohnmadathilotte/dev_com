@@ -14,11 +14,35 @@
 		"LS_SqlServer_Table_password": {
 			"value": ""
 		},
+		"LS_ADLS_REST_PAR_accountKey": {
+			"value": ""
+		},
+		"LS_manualfile_par_accountKey": {
+			"value": ""
+		},
+		"LS_Manualfile_par_output_accountKey": {
+			"value": ""
+		},
 		"LS_SQl_PAR_properties_typeProperties_url": {
 			"value": "https://adlseldevcom.dfs.core.windows.net/"
 		},
 		"LS_SqlServer_Table_properties_typeProperties_userName": {
 			"value": "MEA\\Subin.John"
+		},
+		"LS_REST_PAR_properties_typeProperties_url": {
+			"value": "https://retoolapi.dev/y4amQ1/data"
+		},
+		"LS_ADLS_REST_PAR_properties_typeProperties_url": {
+			"value": "https://adlseldevcom.dfs.core.windows.net/"
+		},
+		"LS_manualfile_par_properties_typeProperties_url": {
+			"value": "https://adlsrawcom.dfs.core.windows.net/"
+		},
+		"LS_Manualfile_par_output_properties_typeProperties_url": {
+			"value": "https://adlseldevcom.dfs.core.windows.net/"
+		},
+		"EVNT_Manualfile_properties_typeProperties_scope": {
+			"value": "/subscriptions/9b6bc322-469e-41f1-a2e5-601fa6660ace/resourceGroups/rg_devcom/providers/Microsoft.Storage/storageAccounts/adlsrawcom"
 		},
 		"containerUri": {
 			"value": ""
