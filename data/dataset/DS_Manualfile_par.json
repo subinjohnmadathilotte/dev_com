@@ -1,0 +1,43 @@
+{
+	"name": "DS_Manualfile_par",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_manualfile_par",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "manualfile-payment"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "order_id",
+				"type": "String"
+			},
+			{
+				"name": "payment_sequential",
+				"type": "String"
+			},
+			{
+				"name": "payment_type",
+				"type": "String"
+			},
+			{
+				"name": "payment_installments",
+				"type": "String"
+			},
+			{
+				"name": "payment_value",
+				"type": "String"
+			}
+		]
+	}
+}

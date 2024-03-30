@@ -1,0 +1,24 @@
+{
+	"name": "EVNT_Manualfile",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_ADLS_TO_PAR",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/manualfile-payment/blobs/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/9b6bc322-469e-41f1-a2e5-601fa6660ace/resourceGroups/rg_devcom/providers/Microsoft.Storage/storageAccounts/adlsrawcom",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
