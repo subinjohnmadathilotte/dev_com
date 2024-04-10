@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText1",
+	"name": "DS_EL_CSVs",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_EL_ADLS",
