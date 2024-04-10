@@ -7,21 +7,21 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-devcom"
 		},
-		"LS_SQl_PAR_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LS_SQl_PAR'"
-		},
 		"LS_ADLS_REST_PAR_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_ADLS_REST_PAR'"
 		},
-		"LS_manualfile_par_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LS_manualfile_par'"
-		},
 		"LS_Manualfile_par_output_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_Manualfile_par_output'"
+		},
+		"LS_SQl_PAR_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_SQl_PAR'"
+		},
+		"LS_manualfile_par_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_manualfile_par'"
 		},
 		"LS_SqlServer_Table_connectionString": {
 			"type": "secureString",
@@ -32,7 +32,11 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SqlServer_Table'"
 		},
-		"LS_SQl_PAR_properties_typeProperties_url": {
+		"LS_ADLS_REST_PAR_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
+		},
+		"LS_Manualfile_par_output_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
 		},
@@ -40,7 +44,7 @@
 			"type": "string",
 			"defaultValue": "https://retoolapi.dev/y4amQ1/data"
 		},
-		"LS_ADLS_REST_PAR_properties_typeProperties_url": {
+		"LS_SQl_PAR_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
 		},
@@ -48,13 +52,21 @@
 			"type": "string",
 			"defaultValue": "https://adlsrawcom.dfs.core.windows.net/"
 		},
-		"LS_Manualfile_par_output_properties_typeProperties_url": {
+		"LS_KV_properties_typeProperties_baseUrl": {
 			"type": "string",
-			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
+			"defaultValue": "https://kvSampleproject.vault.azure.net/"
 		},
 		"LS_SqlServer_Table_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "MEA\\Subin.John"
+		},
+		"LS_SFTP_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "sftpdemo1storage.blob.core.windows.net"
+		},
+		"LS_SFTP_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sftpdemo1storage.sftpadmin"
 		},
 		"EVNT_Manualfile_properties_typeProperties_scope": {
 			"type": "string",
@@ -65,48 +77,6 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_SQl_PAR')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('LS_SQl_PAR_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('LS_SQl_PAR_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/integrationRuntimeSelfHosted')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_REST_PAR')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('LS_REST_PAR_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/LS_ADLS_REST_PAR')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -119,23 +89,6 @@
 					"accountKey": {
 						"type": "SecureString",
 						"value": "[parameters('LS_ADLS_REST_PAR_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_manualfile_par')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('LS_manualfile_par_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('LS_manualfile_par_accountKey')]"
 					}
 				}
 			},
@@ -159,70 +112,76 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/LS_SqlServer_Table')]",
+			"name": "[concat(parameters('factoryName'), '/LS_REST_PAR')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "SqlServer",
+				"type": "RestService",
 				"typeProperties": {
-					"connectionString": "[parameters('LS_SqlServer_Table_connectionString')]",
-					"userName": "[parameters('LS_SqlServer_Table_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('LS_SqlServer_Table_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntimeSelfHosted",
-					"type": "IntegrationRuntimeReference"
+					"url": "[parameters('LS_REST_PAR_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeSelfHosted')]"
-			]
+			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_SQL_PAR')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/LS_SQl_PAR')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQl_PAR",
-					"type": "LinkedServiceReference"
-				},
 				"annotations": [],
-				"type": "Parquet",
+				"type": "AzureBlobFS",
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "order"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
+					"url": "[parameters('LS_SQl_PAR_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('LS_SQl_PAR_accountKey')]"
+					}
+				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SQl_PAR')]"
-			]
+			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_REST_PAR')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/LS_manualfile_par')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_REST_PAR",
-					"type": "LinkedServiceReference"
-				},
 				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {},
-				"schema": []
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('LS_manualfile_par_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('LS_manualfile_par_accountKey')]"
+					}
+				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_REST_PAR')]"
-			]
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/integrationRuntimeSelfHosted')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_KV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('LS_KV_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DS_ADLS_REST_PAR')]",
@@ -322,118 +281,96 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_Sql_server_table')]",
+			"name": "[concat(parameters('factoryName'), '/DS_REST_PAR')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "LS_SqlServer_Table",
+					"referenceName": "LS_REST_PAR",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [
-					{
-						"name": "order_id",
-						"type": "varchar"
-					},
-					{
-						"name": "customer_id",
-						"type": "varchar"
-					},
-					{
-						"name": "order_status",
-						"type": "varchar"
-					},
-					{
-						"name": "order_purchase_timestamp",
-						"type": "varchar"
-					},
-					{
-						"name": "order_approved_at",
-						"type": "varchar"
-					},
-					{
-						"name": "order_delivered_timestamp",
-						"type": "varchar"
-					},
-					{
-						"name": "order_estimated_delivery_date",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "orders"
-				}
+				"type": "RestResource",
+				"typeProperties": {},
+				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SqlServer_Table')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_REST_PAR')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_REST_API')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/DS_SQL_PAR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET",
-								"paginationRules": {
-									"supportRFC5988": "true"
-								}
-							},
-							"sink": {
-								"type": "ParquetSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "ParquetWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "DS_REST_PAR",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DS_ADLS_REST_PAR",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
+				"linkedServiceName": {
+					"referenceName": "LS_SQl_PAR",
+					"type": "LinkedServiceReference"
 				},
-				"annotations": []
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "order"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_REST_PAR')]",
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_REST_PAR')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQl_PAR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_SqlServer_Table')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_SqlServer_Table_connectionString')]",
+					"userName": "[parameters('LS_SqlServer_Table_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_SqlServer_Table_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "integrationRuntimeSelfHosted",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeSelfHosted')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_SFTP')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Sftp",
+				"typeProperties": {
+					"host": "[parameters('LS_SFTP_properties_typeProperties_host')]",
+					"port": 22,
+					"skipHostKeyValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('LS_SFTP_properties_typeProperties_userName')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "LS_KV",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "sftpsecret"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_KV')]"
 			]
 		},
 		{
@@ -512,6 +449,121 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_REST_API')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET",
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_REST_PAR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_ADLS_REST_PAR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_REST_PAR')]",
+				"[concat(variables('factoryId'), '/datasets/DS_ADLS_REST_PAR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_Sql_server_table')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SqlServer_Table",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "order_id",
+						"type": "varchar"
+					},
+					{
+						"name": "customer_id",
+						"type": "varchar"
+					},
+					{
+						"name": "order_status",
+						"type": "varchar"
+					},
+					{
+						"name": "order_purchase_timestamp",
+						"type": "varchar"
+					},
+					{
+						"name": "order_approved_at",
+						"type": "varchar"
+					},
+					{
+						"name": "order_delivered_timestamp",
+						"type": "varchar"
+					},
+					{
+						"name": "order_estimated_delivery_date",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "orders"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SqlServer_Table')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_SQL_TO_PAR')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -581,43 +633,12 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SCH_REST_PAR_DATA')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "PL_REST_API",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Day",
-						"interval": 1,
-						"startTime": "2024-03-30T05:57:00",
-						"timeZone": "India Standard Time",
-						"schedule": {}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_REST_API')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/EVNT_Manualfile')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Stopped",
+				"runtimeState": "Started",
 				"pipelines": [
 					{
 						"pipelineReference": {
@@ -642,7 +663,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SCG_Trigger_SQL_PAR')]",
+			"name": "[concat(parameters('factoryName'), '/SCH_REST_PAR_DATA')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -651,7 +672,7 @@
 				"pipelines": [
 					{
 						"pipelineReference": {
-							"referenceName": "PL_SQL_TO_PAR",
+							"referenceName": "PL_REST_API",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
@@ -662,14 +683,13 @@
 					"recurrence": {
 						"frequency": "Day",
 						"interval": 1,
-						"startTime": "2024-03-29T13:07:00",
-						"timeZone": "India Standard Time",
-						"schedule": {}
+						"startTime": "2024-03-30T05:57:00",
+						"timeZone": "India Standard Time"
 					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL_SQL_TO_PAR')]"
+				"[concat(variables('factoryId'), '/pipelines/PL_REST_API')]"
 			]
 		}
 	]

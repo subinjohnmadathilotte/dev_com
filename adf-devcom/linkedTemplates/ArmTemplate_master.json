@@ -7,6 +7,14 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-devcom"
 		},
+		"LS_ADLS_REST_PAR_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_ADLS_REST_PAR'"
+		},
+		"LS_Manualfile_par_output_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_Manualfile_par_output'"
+		},
 		"LS_SQl_PAR_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_SQl_PAR'"
@@ -20,17 +28,21 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SqlServer_Table'"
 		},
-		"LS_ADLS_REST_PAR_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LS_ADLS_REST_PAR'"
-		},
 		"LS_manualfile_par_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_manualfile_par'"
 		},
-		"LS_Manualfile_par_output_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LS_Manualfile_par_output'"
+		"LS_ADLS_REST_PAR_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
+		},
+		"LS_Manualfile_par_output_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
+		},
+		"LS_REST_PAR_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://retoolapi.dev/y4amQ1/data"
 		},
 		"LS_SQl_PAR_properties_typeProperties_url": {
 			"type": "string",
@@ -40,25 +52,25 @@
 			"type": "string",
 			"defaultValue": "MEA\\Subin.John"
 		},
-		"LS_REST_PAR_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://retoolapi.dev/y4amQ1/data"
-		},
-		"LS_ADLS_REST_PAR_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
-		},
 		"LS_manualfile_par_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlsrawcom.dfs.core.windows.net/"
 		},
-		"LS_Manualfile_par_output_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
-		},
 		"EVNT_Manualfile_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/9b6bc322-469e-41f1-a2e5-601fa6660ace/resourceGroups/rg_devcom/providers/Microsoft.Storage/storageAccounts/adlsrawcom"
+		},
+		"LS_KV_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kvSampleproject.vault.azure.net/"
+		},
+		"LS_SFTP_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "sftpdemo1storage.blob.core.windows.net"
+		},
+		"LS_SFTP_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sftpdemo1storage.sftpadmin"
 		},
 		"containerUri": {
 			"type": "string",
@@ -87,17 +99,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"LS_SQl_PAR_accountKey": {
-						"value": "[parameters('LS_SQl_PAR_accountKey')]"
-					},
 					"LS_ADLS_REST_PAR_accountKey": {
 						"value": "[parameters('LS_ADLS_REST_PAR_accountKey')]"
 					},
-					"LS_manualfile_par_accountKey": {
-						"value": "[parameters('LS_manualfile_par_accountKey')]"
-					},
 					"LS_Manualfile_par_output_accountKey": {
 						"value": "[parameters('LS_Manualfile_par_output_accountKey')]"
+					},
+					"LS_SQl_PAR_accountKey": {
+						"value": "[parameters('LS_SQl_PAR_accountKey')]"
+					},
+					"LS_manualfile_par_accountKey": {
+						"value": "[parameters('LS_manualfile_par_accountKey')]"
 					},
 					"LS_SqlServer_Table_connectionString": {
 						"value": "[parameters('LS_SqlServer_Table_connectionString')]"
@@ -105,23 +117,32 @@
 					"LS_SqlServer_Table_password": {
 						"value": "[parameters('LS_SqlServer_Table_password')]"
 					},
-					"LS_SQl_PAR_properties_typeProperties_url": {
-						"value": "[parameters('LS_SQl_PAR_properties_typeProperties_url')]"
-					},
-					"LS_REST_PAR_properties_typeProperties_url": {
-						"value": "[parameters('LS_REST_PAR_properties_typeProperties_url')]"
-					},
 					"LS_ADLS_REST_PAR_properties_typeProperties_url": {
 						"value": "[parameters('LS_ADLS_REST_PAR_properties_typeProperties_url')]"
-					},
-					"LS_manualfile_par_properties_typeProperties_url": {
-						"value": "[parameters('LS_manualfile_par_properties_typeProperties_url')]"
 					},
 					"LS_Manualfile_par_output_properties_typeProperties_url": {
 						"value": "[parameters('LS_Manualfile_par_output_properties_typeProperties_url')]"
 					},
+					"LS_REST_PAR_properties_typeProperties_url": {
+						"value": "[parameters('LS_REST_PAR_properties_typeProperties_url')]"
+					},
+					"LS_SQl_PAR_properties_typeProperties_url": {
+						"value": "[parameters('LS_SQl_PAR_properties_typeProperties_url')]"
+					},
+					"LS_manualfile_par_properties_typeProperties_url": {
+						"value": "[parameters('LS_manualfile_par_properties_typeProperties_url')]"
+					},
+					"LS_KV_properties_typeProperties_baseUrl": {
+						"value": "[parameters('LS_KV_properties_typeProperties_baseUrl')]"
+					},
 					"LS_SqlServer_Table_properties_typeProperties_userName": {
 						"value": "[parameters('LS_SqlServer_Table_properties_typeProperties_userName')]"
+					},
+					"LS_SFTP_properties_typeProperties_host": {
+						"value": "[parameters('LS_SFTP_properties_typeProperties_host')]"
+					},
+					"LS_SFTP_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SFTP_properties_typeProperties_userName')]"
 					},
 					"EVNT_Manualfile_properties_typeProperties_scope": {
 						"value": "[parameters('EVNT_Manualfile_properties_typeProperties_scope')]"
@@ -129,6 +150,26 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "adf-devcom_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'adf-devcom_ArmTemplate_0')]"
+			]
 		}
 	]
 }
