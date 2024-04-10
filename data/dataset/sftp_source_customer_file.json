@@ -1,0 +1,17 @@
+{
+	"name": "sftp_source_customer_file",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SFTP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "SftpLocation",
+				"fileName": "customers.csv.filepart"
+			}
+		}
+	}
+}
