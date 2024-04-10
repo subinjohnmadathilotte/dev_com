@@ -143,9 +143,6 @@
 					},
 					"LS_SFTP_properties_typeProperties_userName": {
 						"value": "[parameters('LS_SFTP_properties_typeProperties_userName')]"
-					},
-					"EVNT_Manualfile_properties_typeProperties_scope": {
-						"value": "[parameters('EVNT_Manualfile_properties_typeProperties_scope')]"
 					}
 				}
 			},
@@ -164,6 +161,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"EVNT_Manualfile_properties_typeProperties_scope": {
+						"value": "[parameters('EVNT_Manualfile_properties_typeProperties_scope')]"
 					}
 				}
 			},
