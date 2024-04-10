@@ -77,7 +77,8 @@
 									"name": "customer_zip_code_prefix"
 								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
