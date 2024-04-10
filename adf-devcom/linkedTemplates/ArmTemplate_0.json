@@ -193,7 +193,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "rest_api_output.csv",
 						"fileSystem": "customer"
 					},
 					"compressionCodec": "snappy"
@@ -395,6 +394,42 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_REST_CSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_REST_PAR",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "customer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PAR1\u0015\u0000\u0015�\f\u0015�\u000b",
+						"type": "String"
+					},
+					{
+						"name": "\u0015�\u0001\u0015\u0000\u0015\u0006\u0015\b\u001c\u0018\bd\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0018\b\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0016\u0000(\bd\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0018\b\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0006 \u0003\u0000\u0000\u0000�\u0001\u0001\u0001\u0000\t\u0001\u0000\u0002\t\u0007\u0000\u0000\u0001\u0017\u0001\u0001\u0000\u0004\u0001\u0005\f\u0000\u0000\u0000\u0005\u0001\u0005\f\u0000\u0000\u0000\u0006\u0001\u0005\f\u0000\u0000\u0000\u0007\u0001\u0005\f\u0000\u0000\u0000\b\u0001\u0005\f\u0000\u0000\u0000\t\u0001\u0005\f\u0000\u0000\u0000",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_REST_PAR')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_ADLS_TO_PAR')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -498,12 +533,14 @@
 								}
 							},
 							"sink": {
-								"type": "ParquetSink",
+								"type": "DelimitedTextSink",
 								"storeSettings": {
 									"type": "AzureBlobFSWriteSettings"
 								},
 								"formatSettings": {
-									"type": "ParquetWriteSettings"
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
 								}
 							},
 							"enableStaging": false,
@@ -550,7 +587,8 @@
 											"name": "customer_zip_code_prefix"
 										}
 									}
-								]
+								],
+								"collectionReference": ""
 							}
 						},
 						"inputs": [
@@ -562,7 +600,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "DS_ADLS_REST_PAR",
+								"referenceName": "DS_REST_CSV",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -576,7 +614,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_REST_PAR')]",
-				"[concat(variables('factoryId'), '/datasets/DS_ADLS_REST_PAR')]"
+				"[concat(variables('factoryId'), '/datasets/DS_REST_CSV')]"
 			]
 		},
 		{
@@ -649,70 +687,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_SFTP')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_SFTP_ADLS')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "BinarySource",
-								"storeSettings": {
-									"type": "SftpReadSettings",
-									"recursive": true,
-									"disableChunking": false
-								},
-								"formatSettings": {
-									"type": "BinaryReadSettings"
-								}
-							},
-							"sink": {
-								"type": "BinarySink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "sftp_source_customer_file",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "sftp_output",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/sftp_source_customer_file')]",
-				"[concat(variables('factoryId'), '/datasets/sftp_output')]"
 			]
 		}
 	]
