@@ -25,7 +25,7 @@
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
 						"modifiedDatetimeEnd": {
-							"value": "utcNow()",
+							"value": "@addDays(utcNow(),-5 )",
 							"type": "Expression"
 						},
 						"enablePartitionDiscovery": false
@@ -76,6 +76,13 @@
 											"type": "Expression"
 										}
 									}
+								},
+								"logStorageSettings": {
+									"linkedServiceName": {
+										"referenceName": "LS_EL_ADLS",
+										"type": "LinkedServiceReference"
+									},
+									"path": "customer"
 								},
 								"enableLogging": true,
 								"storeSettings": {
