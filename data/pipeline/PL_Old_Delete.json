@@ -25,7 +25,7 @@
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
 						"modifiedDatetimeEnd": {
-							"value": "@addDays(utcNow(),-5 )",
+							"value": "utcNow()",
 							"type": "Expression"
 						},
 						"enablePartitionDiscovery": false
@@ -69,7 +69,13 @@
 							"typeProperties": {
 								"dataset": {
 									"referenceName": "DS_EL_CSVs",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"array": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
 								},
 								"enableLogging": true,
 								"storeSettings": {
