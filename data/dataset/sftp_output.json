@@ -1,0 +1,19 @@
+{
+	"name": "sftp_output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQl_PAR",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "customers.csv.filepart",
+				"folderPath": "sftp_output",
+				"fileSystem": "output"
+			}
+		}
+	}
+}
