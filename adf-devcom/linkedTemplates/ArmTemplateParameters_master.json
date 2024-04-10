@@ -23,6 +23,9 @@
 		"LS_manualfile_par_accountKey": {
 			"value": ""
 		},
+		"LS_EL_ADLS_accountKey": {
+			"value": ""
+		},
 		"LS_ADLS_REST_PAR_properties_typeProperties_url": {
 			"value": "https://adlseldevcom.dfs.core.windows.net/"
 		},
@@ -52,6 +55,9 @@
 		},
 		"EVNT_Manualfile_properties_typeProperties_scope": {
 			"value": "/subscriptions/9b6bc322-469e-41f1-a2e5-601fa6660ace/resourceGroups/rg_devcom/providers/Microsoft.Storage/storageAccounts/adlsrawcom"
+		},
+		"LS_EL_ADLS_properties_typeProperties_url": {
+			"value": "https://adlseldevcom.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"value": ""
