@@ -36,6 +36,10 @@
 			"type": "string",
 			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
 		},
+		"LS_KV_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kvSampleproject.vault.azure.net/"
+		},
 		"LS_Manualfile_par_output_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
@@ -43,6 +47,14 @@
 		"LS_REST_PAR_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://retoolapi.dev/y4amQ1/data"
+		},
+		"LS_SFTP_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "sftpdemo1storage.blob.core.windows.net"
+		},
+		"LS_SFTP_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sftpdemo1storage.sftpadmin"
 		},
 		"LS_SQl_PAR_properties_typeProperties_url": {
 			"type": "string",
@@ -59,18 +71,6 @@
 		"EVNT_Manualfile_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/9b6bc322-469e-41f1-a2e5-601fa6660ace/resourceGroups/rg_devcom/providers/Microsoft.Storage/storageAccounts/adlsrawcom"
-		},
-		"LS_KV_properties_typeProperties_baseUrl": {
-			"type": "string",
-			"defaultValue": "https://kvSampleproject.vault.azure.net/"
-		},
-		"LS_SFTP_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "sftpdemo1storage.blob.core.windows.net"
-		},
-		"LS_SFTP_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "sftpdemo1storage.sftpadmin"
 		},
 		"containerUri": {
 			"type": "string",
@@ -120,6 +120,9 @@
 					"LS_ADLS_REST_PAR_properties_typeProperties_url": {
 						"value": "[parameters('LS_ADLS_REST_PAR_properties_typeProperties_url')]"
 					},
+					"LS_KV_properties_typeProperties_baseUrl": {
+						"value": "[parameters('LS_KV_properties_typeProperties_baseUrl')]"
+					},
 					"LS_Manualfile_par_output_properties_typeProperties_url": {
 						"value": "[parameters('LS_Manualfile_par_output_properties_typeProperties_url')]"
 					},
@@ -132,17 +135,14 @@
 					"LS_manualfile_par_properties_typeProperties_url": {
 						"value": "[parameters('LS_manualfile_par_properties_typeProperties_url')]"
 					},
-					"LS_KV_properties_typeProperties_baseUrl": {
-						"value": "[parameters('LS_KV_properties_typeProperties_baseUrl')]"
-					},
-					"LS_SqlServer_Table_properties_typeProperties_userName": {
-						"value": "[parameters('LS_SqlServer_Table_properties_typeProperties_userName')]"
-					},
 					"LS_SFTP_properties_typeProperties_host": {
 						"value": "[parameters('LS_SFTP_properties_typeProperties_host')]"
 					},
 					"LS_SFTP_properties_typeProperties_userName": {
 						"value": "[parameters('LS_SFTP_properties_typeProperties_userName')]"
+					},
+					"LS_SqlServer_Table_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SqlServer_Table_properties_typeProperties_userName')]"
 					}
 				}
 			},

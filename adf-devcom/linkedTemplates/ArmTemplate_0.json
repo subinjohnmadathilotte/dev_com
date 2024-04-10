@@ -36,6 +36,10 @@
 			"type": "string",
 			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
 		},
+		"LS_KV_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kvSampleproject.vault.azure.net/"
+		},
 		"LS_Manualfile_par_output_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
@@ -52,14 +56,6 @@
 			"type": "string",
 			"defaultValue": "https://adlsrawcom.dfs.core.windows.net/"
 		},
-		"LS_KV_properties_typeProperties_baseUrl": {
-			"type": "string",
-			"defaultValue": "https://kvSampleproject.vault.azure.net/"
-		},
-		"LS_SqlServer_Table_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "MEA\\Subin.John"
-		},
 		"LS_SFTP_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "sftpdemo1storage.blob.core.windows.net"
@@ -67,6 +63,10 @@
 		"LS_SFTP_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sftpdemo1storage.sftpadmin"
+		},
+		"LS_SqlServer_Table_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "MEA\\Subin.John"
 		}
 	},
 	"variables": {
@@ -86,6 +86,19 @@
 						"type": "SecureString",
 						"value": "[parameters('LS_ADLS_REST_PAR_accountKey')]"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_KV')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('LS_KV_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []
@@ -163,19 +176,6 @@
 			"properties": {
 				"type": "SelfHosted",
 				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_KV')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureKeyVault",
-				"typeProperties": {
-					"baseUrl": "[parameters('LS_KV_properties_typeProperties_baseUrl')]"
-				}
 			},
 			"dependsOn": []
 		},
@@ -319,27 +319,27 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/LS_SqlServer_Table')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/sftp_output')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('LS_SqlServer_Table_connectionString')]",
-					"userName": "[parameters('LS_SqlServer_Table_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('LS_SqlServer_Table_password')]"
-					}
+				"linkedServiceName": {
+					"referenceName": "LS_SQl_PAR",
+					"type": "LinkedServiceReference"
 				},
-				"connectVia": {
-					"referenceName": "integrationRuntimeSelfHosted",
-					"type": "IntegrationRuntimeReference"
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "customers.csv.filepart",
+						"folderPath": "sftp_output",
+						"fileSystem": "output"
+					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeSelfHosted')]"
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQl_PAR')]"
 			]
 		},
 		{
@@ -370,27 +370,27 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/sftp_output')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/LS_SqlServer_Table')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SQl_PAR",
-					"type": "LinkedServiceReference"
-				},
 				"annotations": [],
-				"type": "Binary",
+				"type": "SqlServer",
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "customers.csv.filepart",
-						"folderPath": "sftp_output",
-						"fileSystem": "output"
+					"connectionString": "[parameters('LS_SqlServer_Table_connectionString')]",
+					"userName": "[parameters('LS_SqlServer_Table_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_SqlServer_Table_password')]"
 					}
+				},
+				"connectVia": {
+					"referenceName": "integrationRuntimeSelfHosted",
+					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SQl_PAR')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeSelfHosted')]"
 			]
 		},
 		{
@@ -606,7 +606,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PL_SQL_TO_PAR')]",
+			"name": "[concat(parameters('factoryName'), '/PL_SFTP_ADLS')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -625,39 +625,34 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "ParquetSink",
+								"type": "BinarySource",
 								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"disableChunking": false
 								},
 								"formatSettings": {
-									"type": "ParquetWriteSettings"
+									"type": "BinaryReadSettings"
 								}
 							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
 								}
-							}
+							},
+							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "DS_Sql_server_table",
+								"referenceName": "sftp_source_customer_file",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DS_SQL_PAR",
+								"referenceName": "sftp_output",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -670,8 +665,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_Sql_server_table')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQL_PAR')]"
+				"[concat(variables('factoryId'), '/datasets/sftp_source_customer_file')]",
+				"[concat(variables('factoryId'), '/datasets/sftp_output')]"
 			]
 		}
 	]
