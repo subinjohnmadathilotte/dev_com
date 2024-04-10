@@ -189,7 +189,52 @@
 									"type": "ParquetWriteSettings"
 								}
 							},
-							"enableStaging": false
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['id']"
+										},
+										"sink": {
+											"name": "id"
+										}
+									},
+									{
+										"source": {
+											"path": "$['customer_id']"
+										},
+										"sink": {
+											"name": "customer_id"
+										}
+									},
+									{
+										"source": {
+											"path": "$['customer_city']"
+										},
+										"sink": {
+											"name": "customer_city"
+										}
+									},
+									{
+										"source": {
+											"path": "$['customer_state']"
+										},
+										"sink": {
+											"name": "customer_state"
+										}
+									},
+									{
+										"source": {
+											"path": "$['customer_zip_code_prefix']"
+										},
+										"sink": {
+											"name": "customer_zip_code_prefix"
+										}
+									}
+								]
+							}
 						},
 						"inputs": [
 							{
@@ -364,6 +409,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "rest_api_output.csv",
 						"fileSystem": "customer"
 					},
 					"compressionCodec": "snappy"
