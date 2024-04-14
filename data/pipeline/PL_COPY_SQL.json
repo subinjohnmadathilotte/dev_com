@@ -41,7 +41,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_Sql_server_table",
+						"referenceName": "DS_SQL_address_source",
 						"type": "DatasetReference"
 					}
 				],
