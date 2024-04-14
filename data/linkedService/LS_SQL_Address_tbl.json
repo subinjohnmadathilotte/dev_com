@@ -1,0 +1,17 @@
+{
+	"name": "LS_SQL_Address_tbl",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=IN2370818W2\\SQLEXPRESS;initial catalog=AdventureWorksLT2017",
+			"userName": "MEA\\Subin.John",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4ZjdmNTBhNC0yYmQyLTQ3YjMtYTdmNi1jY2JmOTNhN2NhZDIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntimeSelfHosted",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
