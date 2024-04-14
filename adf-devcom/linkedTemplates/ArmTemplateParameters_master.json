@@ -8,6 +8,9 @@
 		"LS_ADLS_REST_PAR_accountKey": {
 			"value": ""
 		},
+		"LS_EL_ADLS_accountKey": {
+			"value": ""
+		},
 		"LS_Manualfile_par_output_accountKey": {
 			"value": ""
 		},
@@ -15,7 +18,7 @@
 			"value": ""
 		},
 		"LS_SqlServer_Table_connectionString": {
-			"value": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=DE_Training"
+			"value": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2017"
 		},
 		"LS_SqlServer_Table_password": {
 			"value": ""
@@ -23,10 +26,16 @@
 		"LS_manualfile_par_accountKey": {
 			"value": ""
 		},
-		"LS_EL_ADLS_accountKey": {
+		"LS_SQL_Address_tbl_connectionString": {
+			"value": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2017"
+		},
+		"LS_SQL_Address_tbl_password": {
 			"value": ""
 		},
 		"LS_ADLS_REST_PAR_properties_typeProperties_url": {
+			"value": "https://adlseldevcom.dfs.core.windows.net/"
+		},
+		"LS_EL_ADLS_properties_typeProperties_url": {
 			"value": "https://adlseldevcom.dfs.core.windows.net/"
 		},
 		"LS_KV_properties_typeProperties_baseUrl": {
@@ -56,8 +65,8 @@
 		"EVNT_Manualfile_properties_typeProperties_scope": {
 			"value": "/subscriptions/9b6bc322-469e-41f1-a2e5-601fa6660ace/resourceGroups/rg_devcom/providers/Microsoft.Storage/storageAccounts/adlsrawcom"
 		},
-		"LS_EL_ADLS_properties_typeProperties_url": {
-			"value": "https://adlseldevcom.dfs.core.windows.net/"
+		"LS_SQL_Address_tbl_properties_typeProperties_userName": {
+			"value": "MEA\\Subin.John"
 		},
 		"containerUri": {
 			"value": ""

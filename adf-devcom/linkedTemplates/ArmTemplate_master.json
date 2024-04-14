@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_ADLS_REST_PAR'"
 		},
+		"LS_EL_ADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_EL_ADLS'"
+		},
 		"LS_Manualfile_par_output_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_Manualfile_par_output'"
@@ -22,7 +26,7 @@
 		"LS_SqlServer_Table_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_SqlServer_Table'",
-			"defaultValue": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=DE_Training"
+			"defaultValue": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2017"
 		},
 		"LS_SqlServer_Table_password": {
 			"type": "secureString",
@@ -32,11 +36,20 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_manualfile_par'"
 		},
-		"LS_EL_ADLS_accountKey": {
+		"LS_SQL_Address_tbl_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LS_EL_ADLS'"
+			"metadata": "Secure string for 'connectionString' of 'LS_SQL_Address_tbl'",
+			"defaultValue": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2017"
+		},
+		"LS_SQL_Address_tbl_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SQL_Address_tbl'"
 		},
 		"LS_ADLS_REST_PAR_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
+		},
+		"LS_EL_ADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
 		},
@@ -76,9 +89,9 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/9b6bc322-469e-41f1-a2e5-601fa6660ace/resourceGroups/rg_devcom/providers/Microsoft.Storage/storageAccounts/adlsrawcom"
 		},
-		"LS_EL_ADLS_properties_typeProperties_url": {
+		"LS_SQL_Address_tbl_properties_typeProperties_userName": {
 			"type": "string",
-			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
+			"defaultValue": "MEA\\Subin.John"
 		},
 		"containerUri": {
 			"type": "string",
@@ -110,6 +123,9 @@
 					"LS_ADLS_REST_PAR_accountKey": {
 						"value": "[parameters('LS_ADLS_REST_PAR_accountKey')]"
 					},
+					"LS_EL_ADLS_accountKey": {
+						"value": "[parameters('LS_EL_ADLS_accountKey')]"
+					},
 					"LS_Manualfile_par_output_accountKey": {
 						"value": "[parameters('LS_Manualfile_par_output_accountKey')]"
 					},
@@ -119,17 +135,23 @@
 					"LS_manualfile_par_accountKey": {
 						"value": "[parameters('LS_manualfile_par_accountKey')]"
 					},
-					"LS_EL_ADLS_accountKey": {
-						"value": "[parameters('LS_EL_ADLS_accountKey')]"
-					},
 					"LS_SqlServer_Table_connectionString": {
 						"value": "[parameters('LS_SqlServer_Table_connectionString')]"
 					},
 					"LS_SqlServer_Table_password": {
 						"value": "[parameters('LS_SqlServer_Table_password')]"
 					},
+					"LS_SQL_Address_tbl_connectionString": {
+						"value": "[parameters('LS_SQL_Address_tbl_connectionString')]"
+					},
+					"LS_SQL_Address_tbl_password": {
+						"value": "[parameters('LS_SQL_Address_tbl_password')]"
+					},
 					"LS_ADLS_REST_PAR_properties_typeProperties_url": {
 						"value": "[parameters('LS_ADLS_REST_PAR_properties_typeProperties_url')]"
+					},
+					"LS_EL_ADLS_properties_typeProperties_url": {
+						"value": "[parameters('LS_EL_ADLS_properties_typeProperties_url')]"
 					},
 					"LS_KV_properties_typeProperties_baseUrl": {
 						"value": "[parameters('LS_KV_properties_typeProperties_baseUrl')]"
@@ -146,9 +168,6 @@
 					"LS_manualfile_par_properties_typeProperties_url": {
 						"value": "[parameters('LS_manualfile_par_properties_typeProperties_url')]"
 					},
-					"LS_EL_ADLS_properties_typeProperties_url": {
-						"value": "[parameters('LS_EL_ADLS_properties_typeProperties_url')]"
-					},
 					"LS_SFTP_properties_typeProperties_host": {
 						"value": "[parameters('LS_SFTP_properties_typeProperties_host')]"
 					},
@@ -157,6 +176,9 @@
 					},
 					"LS_SqlServer_Table_properties_typeProperties_userName": {
 						"value": "[parameters('LS_SqlServer_Table_properties_typeProperties_userName')]"
+					},
+					"LS_SQL_Address_tbl_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQL_Address_tbl_properties_typeProperties_userName')]"
 					}
 				}
 			},

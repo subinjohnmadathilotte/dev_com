@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_ADLS_REST_PAR'"
 		},
+		"LS_EL_ADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_EL_ADLS'"
+		},
 		"LS_Manualfile_par_output_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_Manualfile_par_output'"
@@ -23,20 +27,29 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_manualfile_par'"
 		},
-		"LS_EL_ADLS_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'LS_EL_ADLS'"
-		},
 		"LS_SqlServer_Table_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LS_SqlServer_Table'",
-			"defaultValue": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=DE_Training"
+			"defaultValue": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2017"
 		},
 		"LS_SqlServer_Table_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SqlServer_Table'"
 		},
+		"LS_SQL_Address_tbl_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_SQL_Address_tbl'",
+			"defaultValue": "Integrated Security=True;Data Source=IN2370818W2\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2017"
+		},
+		"LS_SQL_Address_tbl_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SQL_Address_tbl'"
+		},
 		"LS_ADLS_REST_PAR_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
+		},
+		"LS_EL_ADLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
 		},
@@ -60,10 +73,6 @@
 			"type": "string",
 			"defaultValue": "https://adlsrawcom.dfs.core.windows.net/"
 		},
-		"LS_EL_ADLS_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://adlseldevcom.dfs.core.windows.net/"
-		},
 		"LS_SFTP_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "sftpdemo1storage.blob.core.windows.net"
@@ -73,6 +82,10 @@
 			"defaultValue": "sftpdemo1storage.sftpadmin"
 		},
 		"LS_SqlServer_Table_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "MEA\\Subin.John"
+		},
+		"LS_SQL_Address_tbl_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "MEA\\Subin.John"
 		}
@@ -93,6 +106,23 @@
 					"accountKey": {
 						"type": "SecureString",
 						"value": "[parameters('LS_ADLS_REST_PAR_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_EL_ADLS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('LS_EL_ADLS_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('LS_EL_ADLS_accountKey')]"
 					}
 				}
 			},
@@ -188,23 +218,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/LS_EL_ADLS')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('LS_EL_ADLS_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('LS_EL_ADLS_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DS_ADLS_REST_PAR')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -226,6 +239,63 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_REST_PAR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_EL_CSVs')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_EL_ADLS",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"array": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().array",
+							"type": "Expression"
+						},
+						"fileSystem": "customer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "customer_id",
+						"type": "String"
+					},
+					{
+						"name": "customer_city",
+						"type": "String"
+					},
+					{
+						"name": "customer_state",
+						"type": "String"
+					},
+					{
+						"name": "customer_zip_code_prefix",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_EL_ADLS')]"
 			]
 		},
 		{
@@ -299,6 +369,42 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_Manualfile_par_output')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_REST_CSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_REST_PAR",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "customer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "PAR1\u0015\u0000\u0015�\f\u0015�\u000b",
+						"type": "String"
+					},
+					{
+						"name": "\u0015�\u0001\u0015\u0000\u0015\u0006\u0015\b\u001c\u0018\bd\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0018\b\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0016\u0000(\bd\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0018\b\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0006 \u0003\u0000\u0000\u0000�\u0001\u0001\u0001\u0000\t\u0001\u0000\u0002\t\u0007\u0000\u0000\u0001\u0017\u0001\u0001\u0000\u0004\u0001\u0005\f\u0000\u0000\u0000\u0005\u0001\u0005\f\u0000\u0000\u0000\u0006\u0001\u0005\f\u0000\u0000\u0000\u0007\u0001\u0005\f\u0000\u0000\u0000\b\u0001\u0005\f\u0000\u0000\u0000\t\u0001\u0005\f\u0000\u0000\u0000",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_REST_PAR')]"
 			]
 		},
 		{
@@ -419,43 +525,31 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_REST_CSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/LS_SQL_Address_tbl')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_ADLS_REST_PAR",
-					"type": "LinkedServiceReference"
-				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "SqlServer",
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "customer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "PAR1\u0015\u0000\u0015�\f\u0015�\u000b",
-						"type": "String"
-					},
-					{
-						"name": "\u0015�\u0001\u0015\u0000\u0015\u0006\u0015\b\u001c\u0018\bd\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0018\b\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0016\u0000(\bd\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0018\b\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0006 \u0003\u0000\u0000\u0000�\u0001\u0001\u0001\u0000\t\u0001\u0000\u0002\t\u0007\u0000\u0000\u0001\u0017\u0001\u0001\u0000\u0004\u0001\u0005\f\u0000\u0000\u0000\u0005\u0001\u0005\f\u0000\u0000\u0000\u0006\u0001\u0005\f\u0000\u0000\u0000\u0007\u0001\u0005\f\u0000\u0000\u0000\b\u0001\u0005\f\u0000\u0000\u0000\t\u0001\u0005\f\u0000\u0000\u0000",
-						"type": "String"
+					"connectionString": "[parameters('LS_SQL_Address_tbl_connectionString')]",
+					"userName": "[parameters('LS_SQL_Address_tbl_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_SQL_Address_tbl_password')]"
 					}
-				]
+				},
+				"connectVia": {
+					"referenceName": "integrationRuntimeSelfHosted",
+					"type": "IntegrationRuntimeReference"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS_REST_PAR')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntimeSelfHosted')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_EL_CSVs')]",
+			"name": "[concat(parameters('factoryName'), '/DS_address_par')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -463,240 +557,19 @@
 					"referenceName": "LS_EL_ADLS",
 					"type": "LinkedServiceReference"
 				},
-				"parameters": {
-					"array": {
-						"type": "string"
-					}
-				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "Parquet",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@dataset().array",
-							"type": "Expression"
-						},
-						"fileSystem": "customer"
+						"fileSystem": "output"
 					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
+					"compressionCodec": "snappy"
 				},
-				"schema": [
-					{
-						"name": "id",
-						"type": "String"
-					},
-					{
-						"name": "customer_id",
-						"type": "String"
-					},
-					{
-						"name": "customer_city",
-						"type": "String"
-					},
-					{
-						"name": "customer_state",
-						"type": "String"
-					},
-					{
-						"name": "customer_zip_code_prefix",
-						"type": "String"
-					}
-				]
+				"schema": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_EL_ADLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_ADLS_TO_PAR')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "ParquetSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "ParquetWriteSettings"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DS_Manualfile_par",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DS_Manualfile_par_output",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_Manualfile_par')]",
-				"[concat(variables('factoryId'), '/datasets/DS_Manualfile_par_output')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_REST_API')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "RestSource",
-								"httpRequestTimeout": "00:01:40",
-								"requestInterval": "00.00:00:00.010",
-								"requestMethod": "GET",
-								"paginationRules": {
-									"supportRFC5988": "true"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['id']"
-										},
-										"sink": {
-											"name": "id"
-										}
-									},
-									{
-										"source": {
-											"path": "$['customer_id']"
-										},
-										"sink": {
-											"name": "customer_id"
-										}
-									},
-									{
-										"source": {
-											"path": "$['customer_city']"
-										},
-										"sink": {
-											"name": "customer_city"
-										}
-									},
-									{
-										"source": {
-											"path": "$['customer_state']"
-										},
-										"sink": {
-											"name": "customer_state"
-										}
-									},
-									{
-										"source": {
-											"path": "$['customer_zip_code_prefix']"
-										},
-										"sink": {
-											"name": "customer_zip_code_prefix"
-										}
-									}
-								],
-								"collectionReference": ""
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DS_REST_PAR",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DS_REST_CSV",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_REST_PAR')]",
-				"[concat(variables('factoryId'), '/datasets/DS_REST_CSV')]"
 			]
 		}
 	]
