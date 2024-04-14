@@ -98,7 +98,17 @@
 							"outputs": [
 								{
 									"referenceName": "DS_All_tables_adls",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"schemaname": {
+											"value": "@item().SchemaName",
+											"type": "Expression"
+										},
+										"tablename": {
+											"value": "@item().TableName",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
