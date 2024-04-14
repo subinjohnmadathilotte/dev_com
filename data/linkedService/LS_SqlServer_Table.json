@@ -5,9 +5,9 @@
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "integrated security=True;data source=IN2370818W2\\SQLEXPRESS;initial catalog=DE_Training",
+			"connectionString": "integrated security=True;data source=IN2370818W2\\SQLEXPRESS;initial catalog=AdventureWorksLT2017",
 			"userName": "MEA\\Subin.John",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJjZmIyNjcwOS1jODJlLTRjOTAtOGYyZC02ZmMzNzg2YTUyOWQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmZjkwOTZiOC1kY2YwLTQ5M2EtYjMwNi00MTAzMTAyZWNhNDAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "integrationRuntimeSelfHosted",
