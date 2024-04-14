@@ -101,11 +101,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"schemaname": {
-											"value": "@item().schemaname",
+											"value": "@item().table_schema",
 											"type": "Expression"
 										},
 										"tablename": {
-											"value": "@item().tablename",
+											"value": "@item().table_schema",
 											"type": "Expression"
 										}
 									}
